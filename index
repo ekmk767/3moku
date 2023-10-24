@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <style>
+            #board {
+                background-color: black;
+            }
+            #result {
+                font-size: 60px;
+            }
+            td.cell {
+                background-color: white;
+                width: 120px;
+                height: 120px;
+                font-size: 60pt;
+                text-align: center;
+            }
+        </style>
+        <script>
+            let count = 0;
+            let compflag = false; // 三つ揃ったらtrueに  
+            let end = false; // 揃った後入力制限用 
+             const cell = new Array(3);
+            for (let x = 0; x < 3; x++) {
+                cell[x] = new Array(3);
+            }
+
+            
+
+            function moku3check() {
+                if(count % 2 != 0) { // 奇数＝〇
+                    if(cell[0][0] == "〇" && cell[0][1] == "〇" && cell[0][2] == "〇") {
+                        compflag = true;
+                    }
+                    else if(cell[1][0] == "〇" && cell[1][1] == "〇" && cell[1][2] == "〇") {
+                        compflag = true;
+                    }
+                    else if(cell[2][0] == "〇" && cell[2][1] == "〇" && cell[2][2] == "〇") {
+                        compflag = true;
+                    }
+                    else if(cell[0][0] == "〇" && cell[1][0] == "〇" && cell[2][0] == "〇") {
+                        compflag = true;
+                    }
+                    else if(cell[0][1] == "〇" && cell[1][1] == "〇" && cell[2][1] == "〇") {
+                        compflag = true;
+                    }
+                    else if(cell[0][2] == "〇" && cell[1][2] == "〇" && cell[2][2] == "〇") {
+                        compflag = true;
+                    }
+                    else if(cell[0][0] == "〇" && cell[1][1] == "〇" && cell[2][2] == "〇") {
+                        compflag = true;
+                    }
+                    else if(cell[0][2] == "〇" && cell[1][1] == "〇" && cell[2][0] == "〇") {
+                        compflag = true;
+                    }
+                } else { // 偶数＝×
+                    if(cell[0][0] == "×" && cell[0][1] == "×" && cell[0][2] == "×") {
+                        compflag = true;
+                    }
+                    else if(cell[1][0] == "×" && cell[1][1] == "×" && cell[1][2] == "×") {
+                        compflag = true;
+                    }
+                    else if(cell[2][0] == "×" && cell[2][1] == "×" && cell[2][2] == "×") {
+                        compflag = true;
+                    }
+                    else if(cell[0][0] == "×" && cell[1][0] == "×" && cell[2][0] == "×") {
+                        compflag = true;
+                    }
+                    else if(cell[0][1] == "×" && cell[1][1] == "×" && cell[2][1] == "×") {
+                        compflag = true;
+                    }
+                    else if(cell[0][2] == "×" && cell[1][2] == "×" && cell[2][2] == "×") {
+                        compflag = true;
+                    }
+                    else if(cell[0][0] == "×" && cell[1][1] == "×" && cell[2][2] == "×") {
+                        compflag = true;
+                    }
+                    else if(cell[0][2] == "×" && cell[1][1] == "×" && cell[2][0] == "×") {
+                        compflag = true;
+                    }
+                }
+
+                
+            }
+
+            function init() {
+                let b = document.getElementById("board");
+                for (let i = 0; i < 3; i++) {
+                    let tr = document.createElement("tr");
+                    for (let j = 0; j < 3; j++) {
+                        let td = document.createElement("td");
+                        td.className = "cell";
+                        td.id = "cell" + i + j;
+                        td.i = i;
+                        td.j = j;
+                        td.onclick = clicked;
+                        tr.appendChild(td);
+                    }
+                    b.appendChild(tr);
+                }
+                
+
+
+               
+            }
+
+            function clicked(e){
+                if(count % 2 == 0 && e.target.textContent != "〇" && e.target.textContent != "×" && end == false) {
+                e.target.textContent = "〇";
+                cell[e.target.i][e.target.j] = "〇";
+                count++;
+                moku3check();
+            } else if (e.target.textContent != "×" && e.target.textContent != "〇" && end == false){
+                e.target.textContent = "×";
+                cell[e.target.i][e.target.j] = "×";
+                count++;
+                moku3check();
+            }
+
+              
+
+            if (compflag == true){
+                if(count % 2 != 0){
+                    document.getElementById("result").textContent = "〇の勝ち！";
+                    end = true;
+                }
+                else {
+                    document.getElementById("result").textContent = "×の勝ち！";
+                    end = true;
+                }
+            }
+            if(compflag == false && count == 9){
+                document.getElementById("result").textContent = "引き分け！";
+                end = true;
+            }
+
+            }
+
+           
+        </script>
+    </head>
+    <body onload="init()">
+        <table id ="board"></table>
+        <p id = "result"></p>
+    </body>
+</html>
